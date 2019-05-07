@@ -1,0 +1,122 @@
+html {
+    display: contents;
+    min-height: 100%;
+    min-width: 100%;
+    position: relative;
+    /* background-image: url("../images/tatooine.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%; */
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+
+main {
+    min-height: 100%;
+    min-width: 100%;
+    position: absolute;
+    background-image: url("../images/tatooine.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#game-header {
+    text-align: center;
+    font-family: 'Star Jedi', Times, serif;
+    color: yellow;
+}
+
+#attacker-header {
+    font-family: 'Star Jedi', Times, serif;
+    color: yellow;
+}
+
+#defender-header {
+    font-family: 'Star Jedi', Times, serif;
+    color: yellow;
+}
+
+#remainder-header {
+    font-family: 'Star Jedi', Times, serif;
+    color: yellow;
+}
+
+#left-container {
+    display: inline-block;
+}
+
+#results-container {
+    /* display: inline-block; */
+    display: none;
+    font-family: 'Star Jedi', Times, serif;
+    color: yellow;
+    width: 500px;
+    position: absolute;
+    margin-left: 3em;
+    overflow: scroll;
+}
+
+.jedi-image {
+    height: 200px;
+ /* width: 160px; */
+}
+
+#attacker-container {
+    display: block;
+    margin-bottom: 0;
+}
+
+#attacker-selected {
+    display: block;
+    margin-bottom: 0;
+}
+
+#attacker-choices {
+    display: inline-flex;
+}
+
+#attacker-card-container {
+    display: inline-flex;
+    margin-bottom: 0;
+}
+
+#defender-selected {
+    display: none;    
+    margin-bottom: 0;
+}
+
+#defender-choices {
+    display: inline-flex;
+}
+
+#defender-card-container {
+    display: inline-flex;
+    margin-bottom: 0;
+}
+
+#remainder-container {
+    display: none;
+}
+
+#remainder-choices-container {
+    display: block;
+}
+
+#remainder-choices {
+    display: inline-flex;
+}
+
+#attack-button {
+    display: none;
+    margin-bottom: 1rem;
+}
+
+#attack-results {
+    display: inline-block;
+    font-family: 'Star Jedi', Times, serif;
+    color: yellow;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
