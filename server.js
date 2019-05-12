@@ -1,12 +1,13 @@
 var express = require('express');
 
+// Init the express app.
 var app = express();
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 8080;
 
-app.use(express.urlencoded({ extended: true }));
+// Tell express which middleware to use.
 app.use(express.json());
-
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./app/public'));
 
 require('./app/routes/apiRoutes')(app);
 require('./app/routes/htmlRoutes')(app);
