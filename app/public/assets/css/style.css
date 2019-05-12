@@ -21,8 +21,20 @@ body {
     margin-left: 25%;
 }
 
-#message-block{
+#message-block {
     display: none;
     background-color: blue;
     z-index: 5;
+}
+
+#result-form {
+    display: none;
+    background-color: green;
+    z-index: 5;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.profile-pic {
+    width: 100%;
 }

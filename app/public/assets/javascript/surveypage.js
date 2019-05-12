@@ -120,15 +120,46 @@ document.getElementById('survey-picture').addEventListener('change', function(){
      checkIfComplete();
 });
 
-$("#survey-submit").on("click",function() {
+$("#picture-form").submit(function(event) {
+    event.preventDefault();
+
+    var data = new FormData();
+    $.each($('#survey-picture')[0].files, function(i, file) {
+        console.log("file",file);
+        data.append('file-'+i, file);
+    });
+
+    $.ajax({
+        url: '/api/uploadfile',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        type: 'POST', // For jQuery < 1.9
+        success: function(data){
+            console.log("success",data);
+        }
+    });
+});
+
+$("#survey-submit").on("click",function(event) {
     // Post the survey.
+    event.preventDefault();
+
     $.ajax({
         url: '/api/friends',
         data: surveyData,
         method: 'POST'
       }).then(function(data) {
-          console.log(data);
-          // Then upload the picture.
-          $("#upload-picture").submit();
+        showMatch(data);
       });
 });
+
+function showMatch(match) {
+    $("#result-form").css("display","block");
+    $("#best-friend-name").text(match.name);
+    var matchpic = $(`<img src="assets/profilepics/${match.picFile}" class="profile-pic" alt="profile picture"</img>`);
+    console.log($("#result-form"));
+    $("#result-form").append(matchpic);    
+};

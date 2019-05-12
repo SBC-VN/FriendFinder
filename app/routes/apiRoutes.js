@@ -1,18 +1,27 @@
 var friends = require('../data/friends');
+var fs = require("fs");
 
-var multer = require('multer');
+var formidable = require('formidable');
 
-// SET STORAGE
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, 'app/data/profilepics')
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname)
+function findBestMatch(myinfo) {
+    var curMatch = null;
+    var curMatchValue = 1000;
+    var matchValue;
+
+    for (var i=0; i < friends.length; i++) {
+        // Your best match will always be yourself, so skip yourself.
+        if (myinfo.name != friends[i].name) {
+            matchValue = 0;
+            for (j=0; j<myinfo.answers.length; j++) {
+                matchValue += Math.abs(myinfo.answers[j] - friends[i].answers[j]);
+            }
+            if (matchValue < curMatchValue) {
+                curMatch = friends[i];
+            }
+        }
     }
-  });
-   
-var upload = multer({ storage: storage })
+    return curMatch;
+}
 
 module.exports = function(app) {
     
@@ -21,18 +30,31 @@ module.exports = function(app) {
     });
 
     app.post('/api/friends',function(req,res) {
-        console.log("posted friend!");
         friends.push(req.body);
-        res.json(req.body);
+        var outstr = "module.exports = " + JSON.stringify(friends, undefined, 2) + ";";
+
+        fs.writeFile("app/data/friends.js", outstr, function(err) {
+            if (err) {
+              console.log(err);
+              error.httpStatusCode = 400;
+              res.send("Error saving friends file " + err);
+            } 
+        });
+        res.json(findBestMatch(req.body));
     });
 
-    app.post('/api/uploadfile', upload.single('myFile'), (req, res, next) => {
-        const file = req.file;
-        if (!file) {
-          const error = new Error('Please upload a file');
-          error.httpStatusCode = 400;
-          return next(error);
-        }
-        res.end();    
+    app.post('/api/uploadfile', function(req,res) {
+        var form = new formidable.IncomingForm();
+        form.parse(req);
+
+        form.on('fileBegin', function (name, file){
+            file.path = __dirname + '/../public/assets/profilepics/' + file.name;
+        });
+
+        form.on('file', function (name, file){
+            console.log('Uploaded ' + file.name);
+        });
+
+        res.status(200);
     });
 };
